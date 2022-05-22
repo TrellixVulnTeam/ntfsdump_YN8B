@@ -2,15 +2,20 @@ name: build-binary
 
 on:
   push:
-    tags:
-      - "v*.*.*"
+    # tags:
+    #   - "v*.*.*"
+    branches:
+      - feature/change-builder-to-nuitka
 
 jobs:
-  build-windows:
-    runs-on: windows-latest
+  build:
+    runs-on: ${{ matrix.os }}
+
     strategy:
       matrix:
+        os: [windows-latest, ubuntu-latest]
         python-version: ['3.9']
+
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -38,16 +43,32 @@ jobs:
       - name: run python
         run: |
           poetry run ntfsdump -h
-
-      - name: build
-        run: |
-          pip install pyinstaller
-          pyinstaller --onefile -p . -p src -p src/ntfsdump -p ./.venv/Lib/ -p ./.venv/Lib/site-packages -n ntfsdump ./.venv/Scripts/ntfsdump
       
-      - name: verify
-        run: dist/ntfsdump.exe -h
+      - name: build for windows
+        if: matrix.os == 'windows-latest'
+        run: |
+          poetry run pip install nuitka
+          poetry run python -m nuitka --onefile --follow-imports -o dist/ntfsdump.exe src/ntfsdump/views/NtfsDumpView.py
 
-      - name: upload
-        uses: softprops/action-gh-release@v1
-        with:
-          files: dist/ntfsdump.exe
+      - name: verify for windows
+        if: matrix.os == 'windows-latest'
+        run: |
+          dist/ntfsdump.exe -h
+          dist/ntfsdump.exe -v
+
+      - name: build for ubuntu
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          poetry run pip install nuitka
+          poetry run python -m nuitka --onefile --follow-imports -o dist/ntfsdump src/ntfsdump/views/NtfsDumpView.py
+
+      - name: verify for ubuntu
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          dist/ntfsdump -h
+          dist/ntfsdump -v
+
+      # - name: upload
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     files: dist/ntfsdump.exe
