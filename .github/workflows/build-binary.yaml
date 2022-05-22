@@ -5,7 +5,7 @@ on:
     # tags:
     #   - "v*.*.*"
     branches:
-      - feature/change-builder-to-nuitka
+      - feature/change-builder-to-buitka
 
 jobs:
   build:
