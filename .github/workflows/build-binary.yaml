@@ -48,7 +48,7 @@ jobs:
       - name: build for windows
         if: matrix.os == 'windows-latest'
         run: |
-          poetry run pip install nuitka
+          poetry run pip install nuitka zstandard
           poetry run python -m nuitka --onefile --follow-imports --assume-yes-for-downloads -o dist/ntfsdump.exe src/ntfsdump/views/NtfsDumpView.py
 
       - name: verify for windows
@@ -60,7 +60,7 @@ jobs:
       - name: build for ubuntu
         if: matrix.os == 'ubuntu-latest'
         run: |
-          poetry run pip install nuitka
+          poetry run pip install nuitka zstandard
           poetry run python -m nuitka --onefile --follow-imports --assume-yes-for-downloads -o dist/ntfsdump src/ntfsdump/views/NtfsDumpView.py
 
       - name: verify for ubuntu
