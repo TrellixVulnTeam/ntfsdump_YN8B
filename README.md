@@ -24,7 +24,7 @@ from ntfsdump import ntfsdump
 # output_path: str
 # target_queries: List[str]
 # volume_num: Optional[int] = None
-# file_type: Literal['raw', 'e01'] = 'raw'
+# file_type: Literal['raw', 'e01', 'vhd', 'vhdx', 'vmdk'] = 'raw'
 
 ntfsdump(
     imagefile_path='./path/to/your/imagefile.raw',
@@ -117,7 +117,7 @@ $ ntfsfind '.*\.evtx' ./path/to/your/imagefile.raw | ntfsdump ./path/to/your/ima
 ## Prerequisites
 The image file to be processed must meet the following conditions.
 
-- raw or e01 file format
+- File format is raw, e01, vhd, vhdx, or vmdk.
 - NT file system(NTFS)
 - GUID partition table(GPT)
 
@@ -164,4 +164,9 @@ Please report issues and feature requests. :sushi: :sushi: :sushi:
 
 ntfsdump is released under the [LGPLv3+](https://github.com/sumeshi/ntfsdump/blob/master/LICENSE) License.
 
-Powered by [pytsk3](https://github.com/py4n6/pytsk), [libewf](https://github.com/libyal/libewf) and [ntfs-samples](https://github.com/msuhanov/ntfs-samples).
+Powered by following libraries.
+- [pytsk3](https://github.com/py4n6/pytsk)
+- [libewf](https://github.com/libyal/libewf)
+- [libvhdi](https://github.com/libyal/libvhdi)
+- [libvmdk](https://github.com/libyal/libvmdk)
+- [ntfs-samples](https://github.com/msuhanov/ntfs-samples)
