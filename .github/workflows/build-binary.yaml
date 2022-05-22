@@ -62,6 +62,7 @@ jobs:
           poetry run pip install nuitka zstandard
           wget "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
           chmod a+x appimagetool-x86_64.AppImage
+          mkdir -p '/home/runner/.local/share/Nuitka/appimagetool-x86_64.AppImage/x86_64/13'
           mv appimagetool-x86_64.AppImage '/home/runner/.local/share/Nuitka/appimagetool-x86_64.AppImage/x86_64/13/appimagetool'
           poetry run python -m nuitka --onefile --follow-imports -o dist/ntfsdump src/ntfsdump/views/NtfsDumpView.py
 
