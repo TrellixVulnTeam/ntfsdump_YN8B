@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest]
+        os: [windows-latest]
         python-version: ['3.9']
 
     steps:
@@ -55,22 +55,6 @@ jobs:
         run: |
           dist/ntfsdump.exe -h
           dist/ntfsdump.exe -v
-
-      - name: build for ubuntu
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          poetry run pip install nuitka zstandard
-          wget "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
-          chmod a+x appimagetool-x86_64.AppImage
-          mkdir -p '/home/runner/.local/share/Nuitka/appimagetool-x86_64.AppImage/x86_64/13'
-          mv appimagetool-x86_64.AppImage '/home/runner/.local/share/Nuitka/appimagetool-x86_64.AppImage/x86_64/13/appimagetool'
-          poetry run python -m nuitka --onefile --follow-imports -o dist/ntfsdump src/ntfsdump/views/NtfsDumpView.py
-
-      - name: verify for ubuntu
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          dist/ntfsdump -h
-          dist/ntfsdump -v
 
       # - name: upload
       #   uses: softprops/action-gh-release@v1
