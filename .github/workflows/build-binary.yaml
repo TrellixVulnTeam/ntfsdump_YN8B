@@ -49,7 +49,7 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: |
           poetry run pip install nuitka zstandard
-          poetry run python -m nuitka --onefile --disable-ccache --follow-imports --assume-yes-for-downloads -o dist/ntfsdump.exe src/ntfsdump/views/NtfsDumpView.py
+          poetry run python -m nuitka --onefile --assume-yes-for-downloads -o dist/ntfsdump.exe --module ntfsdump --include-package=some_package
 
       - name: verify for windows
         if: matrix.os == 'windows-latest'
@@ -57,17 +57,17 @@ jobs:
           dist/ntfsdump.exe -h
           dist/ntfsdump.exe -v
 
-      - name: build for ubuntu
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          poetry run pip install nuitka zstandard
-          poetry run python -m nuitka --onefile --disable-ccache --follow-imports --assume-yes-for-downloads -o dist/ntfsdump src/ntfsdump/views/NtfsDumpView.py
+      # - name: build for ubuntu
+      #   if: matrix.os == 'ubuntu-latest'
+      #   run: |
+      #     poetry run pip install nuitka zstandard
+      #     poetry run python -m nuitka --onefile --disable-ccache --follow-imports --assume-yes-for-downloads -o dist/ntfsdump src/ntfsdump/views/NtfsDumpView.py
 
-      - name: verify for ubuntu
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          dist/ntfsdump -h
-          dist/ntfsdump -v
+      # - name: verify for ubuntu
+      #   if: matrix.os == 'ubuntu-latest'
+      #   run: |
+      #     dist/ntfsdump -h
+      #     dist/ntfsdump -v
 
       # - name: upload
       #   uses: softprops/action-gh-release@v1
