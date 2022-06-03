@@ -49,7 +49,7 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: |
           poetry run pip install nuitka zstandard
-          poetry run python -m nuitka --onefile --follow-imports --assume-yes-for-downloads -o dist/ntfsdump.exe src/ntfsdump/views/NtfsDumpView.py
+          poetry run python -m nuitka --onefile --disable-ccache --follow-imports --assume-yes-for-downloads -o dist/ntfsdump.exe src/ntfsdump/views/NtfsDumpView.py
 
       - name: verify for windows
         if: matrix.os == 'windows-latest'
