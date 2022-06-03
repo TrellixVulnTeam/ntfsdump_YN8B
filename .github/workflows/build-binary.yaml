@@ -15,7 +15,7 @@ jobs:
       matrix:
         # os: [windows-latest, ubuntu-latest]
         os: [windows-latest]
-        python-version: ['3.9']
+        python-version: ['3.10']
 
     steps:
       - name: checkout
@@ -49,7 +49,7 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: |
           poetry run pip install nuitka zstandard
-          poetry run python -m nuitka --onefile --assume-yes-for-downloads -o dist/ntfsdump.exe --module ntfsdump --include-package=some_package
+          poetry run python -m nuitka --onefile --disable-ccache --follow-imports --assume-yes-for-downloads -o dist/ntfsdump src/ntfsdump/views/NtfsDumpView.py
 
       - name: verify for windows
         if: matrix.os == 'windows-latest'
